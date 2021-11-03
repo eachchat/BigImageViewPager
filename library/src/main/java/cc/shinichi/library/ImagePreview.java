@@ -21,6 +21,7 @@ import cc.shinichi.library.view.listener.OnBigImageClickListener;
 import cc.shinichi.library.view.listener.OnBigImageLongClickListener;
 import cc.shinichi.library.view.listener.OnBigImagePageChangeListener;
 import cc.shinichi.library.view.listener.OnDownloadClickListener;
+import cc.shinichi.library.view.listener.OnMoreOperateClickListener;
 import cc.shinichi.library.view.listener.OnOriginProgressListener;
 
 /**
@@ -48,6 +49,7 @@ public class ImagePreview {
 
     private boolean isShowIndicator = true;// 是否显示图片指示器（1/9）
     private boolean isShowCloseButton = false;// 是否显示关闭页面按钮
+    private boolean isShowMoreButton = false;// 是否显示更多操作按钮
     private boolean isShowDownButton = true;// 是否显示下载按钮
     private int zoomTransitionDuration = 200;// 动画持续时间 单位毫秒 ms
 
@@ -66,7 +68,7 @@ public class ImagePreview {
     @DrawableRes
     private int closeIconResId = R.drawable.ic_action_close;
     @DrawableRes
-    private int downIconResId = R.drawable.icon_download_new;
+    private int downIconResId = R.drawable.icon_download;
 
     // 加载失败时的占位图
     @DrawableRes
@@ -78,6 +80,7 @@ public class ImagePreview {
     private OnBigImagePageChangeListener bigImagePageChangeListener;
     private OnDownloadClickListener downloadClickListener;
     private OnOriginProgressListener onOriginProgressListener;
+    private OnMoreOperateClickListener onMoreOperateClickListener;
 
     // 自定义百分比布局layout id
     @LayoutRes
@@ -175,6 +178,15 @@ public class ImagePreview {
 
     public ImagePreview setShowCloseButton(boolean showCloseButton) {
         isShowCloseButton = showCloseButton;
+        return this;
+    }
+
+    public boolean isShowMoreButton() {
+        return isShowMoreButton;
+    }
+
+    public ImagePreview setShowMoreButton(boolean showMoreButton) {
+        isShowMoreButton = showMoreButton;
         return this;
     }
 
@@ -414,6 +426,15 @@ public class ImagePreview {
 
     private ImagePreview setOnOriginProgressListener(OnOriginProgressListener onOriginProgressListener) {
         this.onOriginProgressListener = onOriginProgressListener;
+        return this;
+    }
+
+    public OnMoreOperateClickListener getOnMoreOperateClickListener() {
+        return onMoreOperateClickListener;
+    }
+
+    public ImagePreview setOnMoreOperateClickListener(OnMoreOperateClickListener onMoreOperateClickListener) {
+        this.onMoreOperateClickListener = onMoreOperateClickListener;
         return this;
     }
 

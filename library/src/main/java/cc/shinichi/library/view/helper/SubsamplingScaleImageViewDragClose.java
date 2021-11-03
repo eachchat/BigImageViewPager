@@ -3220,6 +3220,7 @@ public class SubsamplingScaleImageViewDragClose extends View {
         protected void onPostExecute(Integer orientation) {
             SubsamplingScaleImageViewDragClose subsamplingScaleImageView = viewRef.get();
             if (subsamplingScaleImageView != null) {
+                Log.i("-->", "download finish, do something");
                 if (bitmap != null && orientation != null) {
                     if (preview) {
                         subsamplingScaleImageView.onPreviewLoaded(bitmap);

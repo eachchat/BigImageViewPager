@@ -35,6 +35,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
@@ -48,6 +49,7 @@ import cc.shinichi.library.tool.common.HandlerUtils;
 import cc.shinichi.library.tool.image.DownloadPictureUtil;
 import cc.shinichi.library.tool.ui.ToastUtil;
 import cc.shinichi.library.view.listener.OnDownloadClickListener;
+import cc.shinichi.library.view.listener.OnMoreOperateClickListener;
 
 /**
  * @author 工藤
@@ -64,6 +66,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
     private int currentItem;
     private boolean isShowDownButton;
     private boolean isShowCloseButton;
+    private boolean isShowMoreButton;
     private boolean isShowOriginButton;
     private boolean isShowIndicator;
 
@@ -76,6 +79,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
     private Button btn_show_origin;
     private ImageView img_download;
     private ImageView imgCloseButton;
+    private ImageView moreIv;
     private View rootView;
     private View progressParentLayout;
 
@@ -89,6 +93,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
     private boolean downloadButtonStatus = false;
     // 关闭按钮显示状态
     private boolean closeButtonStatus = false;
+    private boolean moreButtonStatus = false;
 
     private String currentItemOriginPathUrl = "";
     private int lastProgress = 0;
@@ -163,6 +168,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         isShowDownButton = ImagePreview.getInstance().isShowDownButton();
         isShowCloseButton = ImagePreview.getInstance().isShowCloseButton();
         isShowIndicator = ImagePreview.getInstance().isShowIndicator();
+        isShowMoreButton = ImagePreview.getInstance().isShowMoreButton();
 
         currentItemOriginPathUrl = imageInfoList.get(currentItem).getOriginUrl();
 
@@ -203,6 +209,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         btn_show_origin = findViewById(R.id.btn_show_origin);
         img_download = findViewById(R.id.img_download);
         imgCloseButton = findViewById(R.id.imgCloseButton);
+        moreIv = findViewById(R.id.more_iv);
 
         img_download.setImageResource(ImagePreview.getInstance().getDownIconResId());
         imgCloseButton.setImageResource(ImagePreview.getInstance().getCloseIconResId());
@@ -213,6 +220,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         btn_show_origin.setOnClickListener(this);
         // 下载图片按钮
         img_download.setOnClickListener(this);
+        moreIv.setOnClickListener(this);
 
         if (!isShowIndicator) {
             tv_indicator.setVisibility(View.GONE);
@@ -245,6 +253,14 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         } else {
             imgCloseButton.setVisibility(View.GONE);
             closeButtonStatus = false;
+        }
+
+        if (isShowMoreButton) {
+            moreIv.setVisibility(View.VISIBLE);
+            moreButtonStatus = true;
+        } else {
+            moreIv.setVisibility(View.GONE);
+            moreButtonStatus = false;
         }
 
         // 更新进度指示器
@@ -352,11 +368,15 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
             if (closeButtonStatus) {
                 imgCloseButton.setVisibility(View.VISIBLE);
             }
+            if (moreButtonStatus) {
+                moreIv.setVisibility(View.VISIBLE);
+            }
         } else {
             tv_indicator.setVisibility(View.GONE);
             fm_image_show_origin_container.setVisibility(View.GONE);
             img_download.setVisibility(View.GONE);
             imgCloseButton.setVisibility(View.GONE);
+            moreIv.setVisibility(View.GONE);
         }
     }
 
@@ -426,6 +446,12 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
             originalStatus = false;
         } else if (msg.what == 4) {
             // 显示查看原图按钮
+            ImageInfo currentImageInfo = imageInfoList.get(currentItem);
+            if (currentImageInfo != null && currentImageInfo.getOriginSize() > 0) {
+                float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
+                DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+            }
             fm_image_show_origin_container.setVisibility(View.VISIBLE);
             originalStatus = true;
         }
@@ -473,6 +499,11 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
             handlerHolder.sendEmptyMessage(0);
         } else if (i == R.id.imgCloseButton) {
             onBackPressed();
+        } else if (i == R.id.more_iv) {
+            OnMoreOperateClickListener listener = ImagePreview.getInstance().getOnMoreOperateClickListener();
+            if (listener != null) {
+                listener.onMoreClick(context, v, currentItem);
+            }
         }
     }
 
