@@ -88,7 +88,8 @@ public class DownloadPictureUtil {
                             }
                             os.flush();
                         }
-                        ToastUtil.getInstance()._short(context, context.getString(R.string.toast_save_success, Environment.DIRECTORY_PICTURES + "/" + downloadFolderName));
+//                        ToastUtil.getInstance()._short(context, context.getString(R.string.toast_save_success, Environment.DIRECTORY_PICTURES + "/" + downloadFolderName));
+                        ToastUtil.getInstance()._short(context, "已保存到系统相册");
                     } catch (IOException e) {
                         e.printStackTrace();
                         ToastUtil.getInstance()._short(context, context.getString(R.string.toast_save_failed));
