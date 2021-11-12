@@ -19,14 +19,22 @@ public class ImageInfo implements Serializable {
      */
     private String originUrl;
 
-    private float originSize;
+    private long originSize;
+    private String formatSize;
 
+    public String getFormatSize() {
+        return formatSize;
+    }
 
-    public float getOriginSize() {
+    public void setFormatSize(String formatSize) {
+        this.formatSize = formatSize;
+    }
+
+    public long getOriginSize() {
         return originSize;
     }
 
-    public void setOriginSize(float originSize) {
+    public void setOriginSize(long originSize) {
         this.originSize = originSize;
     }
 

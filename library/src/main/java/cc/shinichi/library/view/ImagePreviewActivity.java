@@ -213,6 +213,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
 
         img_download.setImageResource(ImagePreview.getInstance().getDownIconResId());
         imgCloseButton.setImageResource(ImagePreview.getInstance().getCloseIconResId());
+        moreIv.setImageResource(ImagePreview.getInstance().getMoreIconResId());
 
         // 关闭页面按钮
         imgCloseButton.setOnClickListener(this);
@@ -447,10 +448,14 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         } else if (msg.what == 4) {
             // 显示查看原图按钮
             ImageInfo currentImageInfo = imageInfoList.get(currentItem);
-            if (currentImageInfo != null && currentImageInfo.getOriginSize() > 0) {
-                float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
-                DecimalFormat decimalFormat = new DecimalFormat("0.0");
-                btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+            if (currentImageInfo != null) {
+                if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
+                    btn_show_origin.setText("查看原图(" + currentImageInfo.getOriginSize() + ")");
+                } else if (currentImageInfo.getOriginSize() > 0) {
+                    float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
+                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                    btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+                }
             }
             fm_image_show_origin_container.setVisibility(View.VISIBLE);
             originalStatus = true;

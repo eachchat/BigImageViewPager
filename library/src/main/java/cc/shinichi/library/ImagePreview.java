@@ -69,6 +69,8 @@ public class ImagePreview {
     private int closeIconResId = R.drawable.ic_action_close;
     @DrawableRes
     private int downIconResId = R.drawable.icon_download;
+    @DrawableRes
+    private int moreIconResId = R.drawable.icon_more;
 
     // 加载失败时的占位图
     @DrawableRes
@@ -363,6 +365,15 @@ public class ImagePreview {
 
     public ImagePreview setDownIconResId(@DrawableRes int downIconResId) {
         this.downIconResId = downIconResId;
+        return this;
+    }
+
+    public int getMoreIconResId() {
+        return moreIconResId;
+    }
+
+    public ImagePreview setMoreIconResId(@DrawableRes int moreIconResId) {
+        this.moreIconResId = moreIconResId;
         return this;
     }
 
