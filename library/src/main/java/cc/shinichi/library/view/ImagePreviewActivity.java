@@ -450,7 +450,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
             ImageInfo currentImageInfo = imageInfoList.get(currentItem);
             if (currentImageInfo != null) {
                 if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
-                    btn_show_origin.setText("查看原图(" + currentImageInfo.getOriginSize() + ")");
+                    btn_show_origin.setText("查看原图(" + currentImageInfo.getFormatSize() + ")");
                 } else if (currentImageInfo.getOriginSize() > 0) {
                     float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
                     DecimalFormat decimalFormat = new DecimalFormat("0.0");
