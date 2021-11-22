@@ -294,6 +294,17 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
                     fm_center_progress_container.setVisibility(View.GONE);
                     lastProgress = 0;
                 }
+
+                ImageInfo currentImageInfo = imageInfoList.get(currentItem);
+                if (currentImageInfo != null) {
+                    if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
+                        btn_show_origin.setText("查看原图(" + currentImageInfo.getFormatSize() + ")");
+                    } else if (currentImageInfo.getOriginSize() > 0) {
+                        float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
+                        DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                        btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+                    }
+                }
             }
 
             @Override
@@ -447,16 +458,16 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
             originalStatus = false;
         } else if (msg.what == 4) {
             // 显示查看原图按钮
-            ImageInfo currentImageInfo = imageInfoList.get(currentItem);
-            if (currentImageInfo != null) {
-                if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
-                    btn_show_origin.setText("查看原图(" + currentImageInfo.getFormatSize() + ")");
-                } else if (currentImageInfo.getOriginSize() > 0) {
-                    float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
-                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
-                    btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
-                }
-            }
+//            ImageInfo currentImageInfo = imageInfoList.get(currentItem);
+//            if (currentImageInfo != null) {
+//                if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
+//                    btn_show_origin.setText("查看原图(" + currentImageInfo.getFormatSize() + ")");
+//                } else if (currentImageInfo.getOriginSize() > 0) {
+//                    float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
+//                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+//                    btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+//                }
+//            }
             fm_image_show_origin_container.setVisibility(View.VISIBLE);
             originalStatus = true;
         }
