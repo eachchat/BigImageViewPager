@@ -270,6 +270,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
         imagePreviewAdapter = new ImagePreviewAdapter(this, imageInfoList);
         viewPager.setAdapter(imagePreviewAdapter);
         viewPager.setCurrentItem(currentItem);
+        setOriginalSize(imageInfoList.get(currentItem));
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -296,15 +297,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
                 }
 
                 ImageInfo currentImageInfo = imageInfoList.get(currentItem);
-                if (currentImageInfo != null) {
-                    if (!TextUtils.isEmpty(currentImageInfo.getFormatSize())) {
-                        btn_show_origin.setText("查看原图(" + currentImageInfo.getFormatSize() + ")");
-                    } else if (currentImageInfo.getOriginSize() > 0) {
-                        float originSize = currentImageInfo.getOriginSize() / 1024 / 1024;
-                        DecimalFormat decimalFormat = new DecimalFormat("0.0");
-                        btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
-                    }
-                }
+                setOriginalSize(currentImageInfo);
             }
 
             @Override
@@ -327,6 +320,18 @@ public class ImagePreviewActivity extends AppCompatActivity implements Handler.C
                 }
             }
         });
+    }
+
+    private void setOriginalSize(ImageInfo entity) {
+        if (entity != null) {
+            if (!TextUtils.isEmpty(entity.getFormatSize())) {
+                btn_show_origin.setText("查看原图(" + entity.getFormatSize() + ")");
+            } else if (entity.getOriginSize() > 0) {
+                float originSize = entity.getOriginSize() / 1024 / 1024;
+                DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                btn_show_origin.setText("查看原图(" + decimalFormat.format(originSize) + "M)");
+            }
+        }
     }
 
     /**
